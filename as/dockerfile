@@ -1,0 +1,18 @@
+FROM python:3-alpine3.15
+
+RUN apt-get update \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  
+# Set up a working folder and install the pre-reqs
+WORKDIR /app
+COPY . /app
+
+RUN pip install Flask
+
+USER nyu
+
+COPY --chown=nyu:nyu . .
+
+EXPOSE 53533
+CMD python ./as.py
